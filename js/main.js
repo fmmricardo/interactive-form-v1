@@ -14,20 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   //Variables activities
-  const chooseActivities = document.querySelector('.activities');
-  const mainConference = document.querySelector("input[name='all']");
-  const jsFramework = document.querySelector("input[name='js-frrameworks']");
-  const jsLibs = document.querySelector("input[name='ks-libs']");
-  const express = document.querySelector("input[name='express']");
-  const node = document.querySelector("input[name='node']");
-  const buildTools = document.querySelector("input[name='build-tools']");
-  const npm = document.querySelector("input[name='npm']");
+  // Variables - Activities
+const activities = document.querySelector('.activities');
+const mainConference = document.querySelector("input[name='all']");
+const jsFrameworks = document.querySelector("input[name='js-frameworks']");
+const jsLibraries= document.querySelector("input[name='js-libs']");
+const express = document.querySelector("input[name='express']");
+const nodeJS = document.querySelector("input[name='node']");
+const buildTools = document.querySelector("input[name='build-tools']");
+const npm = document.querySelector("input[name='npm']");
+const activitiesErrorDiv = document.createElement('div');
+const activitiesErrorSpan = document.createElement('span');
 
   // variables total costs
-  const totalHtml = document.createElement('div');
-  const totalspan = document.createElement('span');
-  let total;
-  let totalCosts = 0;
+const totalHTML = document.createElement('div');
+const totalSpan = document.createElement('span');
+let total;
+let printCost = 0;
 
   //When the page loads, give focus to the first text field
   $(function() {
@@ -81,100 +84,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //function calc
 
-  const calculateCosts = (cost) => {
-
-    totalCost += cost;
-    total = 'total costs: $' + totalCost;
-    totalspan.textContent = '';
-    if (totalCost !== 0) {
-
-      totalspan.append(totalCost);
-      totalHtml.append(totalspan);
-      activities.append(totalHtml)
+  // Function to calculate total cost and append total
+  const calcCost = (cost) => {
+    printCost += cost;
+    total = 'Total: $' + printCost;
+    totalSpan.textContent = '';
+    if (printCost !== 0) {
+      totalSpan.append(total);
+      totalHTML.appendChild(totalSpan);
+      activities.append(totalHTML);
     }
   };
 
-  //create Events to add/remove the pricce to the list
+  // Event listeners to add/subtract cost and disable overlapping sessions
+
   mainConference.addEventListener('change', () => {
     if (mainConference.checked) {
-      calculateCosts(200);
+      calcCost(200);
     } else {
-      calculateCosts(-200);
+      calcCost(-200);
     }
   });
-
-  //jsFrameWork- express same time
-  jsFramework.addEventListener('change', () => {
-    if (jsFramework.checked) {
-      calculateCosts(100);
-      express.disable = true;
-      express.parentNode.className = 'disable';
+  // Js event
+  jsFrameworks.addEventListener('change', () => {
+    if (jsFrameworks.checked) {
+      calcCost(100);
+      expressW.disabled = true;
+      expressW.parentNode.className = 'disabled';
     } else {
-      calculateCosts(-100);
-      express.disable = false;
-      express.parentNode.className = ' ';
+      calcCost(-100);
+      express.disabled = false;
+      express.parentNode.className = '';
     }
   });
-
-  //jsLibs,node,buildTools same time
-  jsLibs.addEventListener('change', () => {
-    if (jsLibs.checked) {
-      calculateCosts(100);
-      nodeJs.disable = true;
-      nodeJs.parentNode.className = 'disable';
+// JavaScript Libraries Workshop
+  jsLibraries.addEventListener('change', () => {
+    if (jsLibraries.checked) {
+      calcCost(100);
+      nodeJS.disabled = true;
+      nodeJS.parentNode.className = 'disabled';
     } else {
-      calculateCosts(-100);
-      nodeJs.disable = false;
-      nodeJs.parentNode.className = ' ';
+      calcCost(-100);
+      nodeJS.disabled = false;
+      nodeJS.parentNode.className = '';
     }
   });
-  //express,node,buildTools same time
+//Express Workshop
   express.addEventListener('change', () => {
     if (express.checked) {
-      calculateCosts(100);
-      node.disable = true;
-      jsFramework.disable = true;
-      jsFramework.parentNode.className = 'disable';
+      calcCost(100);
+      jsFrameworks.disabled = true;
+      jsFrameworks.parentNode.className = 'disabled';
     } else {
-      calculateCosts(-100);
-      node.disable = false;
-      jsFramework.disable = false;
-      jsFramework.parentNode.className = ' ';
+      calcCost(-100);
+      jsFrameworks.disabled = false;
+      jsFrameworks.parentNode.className = '';
     }
   });
-  // node and jsLibs same time
-  nodeJs.addEventListener('change', () => {
-    if (nodeJs.checked) {
-      calculateCosts(100);
-      jsLibs.disable = true;
-      jsLibs.parentNode.className = 'disable';
-
+//Node.js Workshop
+  nodeJS.addEventListener('change', () => {
+    if (nodeJS.checked) {
+      calcCost(100);
+      jsLibraries.disabled = true;
+      jsLibraries.parentNode.className = 'disabled';
     } else {
-      calculateCosts(-100);
-
-      jsLibs.disable = false;
-      jsLibs.parentNode.className = ' ';
+      calcCost(-100);
+      jsLibraries.disabled = false;
+      jsLibraries.parentNode.className = '';
     }
   });
-  // buildTools
+//Build tools Workshop
   buildTools.addEventListener('change', () => {
     if (buildTools.checked) {
-      calculateCosts(100);
-
+      calcCost(100);
     } else {
-      calculateCosts(-100);
-
+      calcCost(-100);
     }
   });
+//Build tools Workshop
   npm.addEventListener('change', () => {
     if (npm.checked) {
-      calculateCosts(100);
-
+      calcCost(100);
     } else {
-      calculateCosts(-100);
-
+      calcCost(-100);
     }
   });
+
 
 
 
