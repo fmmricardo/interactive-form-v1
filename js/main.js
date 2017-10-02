@@ -52,7 +52,7 @@
   const nameErrorSpan = document.createElement('span');
 
   //email
-  const mail = document.getElementById('email');
+  const mail = document.getElementById('mail');
   const emailErrorDiv = document.createElement('div');
   const emailErrorSpan = document.createElement('span');
   const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
