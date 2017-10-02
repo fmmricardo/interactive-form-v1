@@ -87,10 +87,10 @@
   // email not blanl Validation
   const blankEmail = () => {
     if (mail.value == '') {
-      errorFunction('must be a validly formatted e-mail address ', emailErrorSpan, emailErrorDiv, email);
+      errorFunction('must be a validly formatted e-mail address ', emailErrorSpan, emailErrorDiv, mail);
       return false;
     } else {
-      emailErrorDiv.remove();
+      mailErrorDiv.remove();
       return true;
     }
   };
@@ -101,9 +101,9 @@
     if (regex.test(mail.value) == false) {
       errorFunction('Please enter a valid mail', emailErrorSpan, emailErrorDiv, mail);
     } else {
-      emailErrorDiv.remove();
+      mailErrorDiv.remove();
     }
-    return regex.test(email.value);
+    return regex.test(mail.value);
   };
 
   //activities
@@ -157,11 +157,11 @@
   };
 
   // Email Keyup tester
-  $(email).keyup(function() {
-    if (regex.test(email.value) == false) {
-      createError('Please enter a valid email', emailErrorSpan, emailErrorDiv, email);
+  $(mail).keyup(function() {
+    if (regex.test(mail.value) == false) {
+      createError('Please enter a valid email', emailErrorSpan, emailErrorDiv, mail);
     } else {
-      emailErrorDiv.remove();
+      mailErrorDiv.remove();
     }
   });
 
