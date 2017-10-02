@@ -38,7 +38,7 @@
   const paypal = document.getElementById('paypal');
   const bitcoin = document.getElementById('bitcoin');
   // PAYMENT  information variables
-  const cretditCardNumber = document.getElementById('cc-num');
+  const creditCardNumber = document.getElementById('cc-num');
   const zipCode = document.getElementById('zip');
   const cvvCode = document.getElementById('cvv');
   const paymentErrorDiv = document.createElement('div');
@@ -67,7 +67,7 @@
   //CreateError
   const errorFunction = function(errorMessage, span, div, insertBeforeM) {
     span.textContent = '';
-    span.append('errorMessage');
+    span.append(errorMessage);
     span.setAttribute("class", "error");
     div.appendChild(span);
     insertBeforeM.parentNode.insertBefore(div, insertBeforeM);
@@ -125,19 +125,19 @@
     } else if (payment.value === 'bitcoin') {
       return true;
     } else if (isNaN(parseInt(creditCardNumber.value))) {
-      createError('Please enter numbers 0-9', paymentErrorSpan, paymentErrorDiv, creditCard);
+      errorFunction('Please enter numbers 0-9', paymentErrorSpan, paymentErrorDiv, creditCard);
       return false;
     } else if (creditCardNumber.value == '' || creditCardNumber.value == null) {
-      createError('Please enter a credit card number', paymentErrorSpan, paymentErrorDiv, creditCard);
+      errorFunction('Please enter a credit card number', paymentErrorSpan, paymentErrorDiv, creditCard);
       return false;
     } else if (creditCardNumber.value.length < 13 || creditCardNumber.value.length > 16) {
-      createError('Please enter a number between 13 and 16 digits', paymentErrorSpan, paymentErrorDiv, creditCard);
+      errorFunction('Please enter a number between 13 and 16 digits', paymentErrorSpan, paymentErrorDiv, creditCard);
       return false;
     } else if (zipCode.value.length != 5 || zipCode.value == '' || zipCode.value == null || isNaN(parseInt(zipCode.value))) {
-      createError('Please enter a valid zip code', paymentErrorSpan, paymentErrorDiv, creditCard);
+      errorFunction('Please enter a valid zip code', paymentErrorSpan, paymentErrorDiv, creditCard);
       return false;
     } else if (cvvCode.value.length != 3 || cvvCode.value == '' || cvvCode.value == null || isNaN(parseInt(cvvCode.value))) {
-      createError('Please enter a valid CVV code', paymentErrorSpan, paymentErrorDiv, creditCard);
+      errorFunction('Please enter a valid CVV code', paymentErrorSpan, paymentErrorDiv, creditCard);
       return false;
     } else {
       paymentErrorDiv.remove();
@@ -159,7 +159,7 @@
   // Email Keyup tester
   $(mail).keyup(function() {
     if (regex.test(mail.value) == false) {
-      createError('Please enter a valid email', emailErrorSpan, emailErrorDiv, mail);
+      errorFunction('Please enter a valid email', emailErrorSpan, emailErrorDiv, mail);
     } else {
       mailErrorDiv.remove();
     }
