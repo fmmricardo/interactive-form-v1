@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
+//document.addEventListener('DOMContentLoaded', () => {
 
   // Variables
 
   //Variables jobRole
-  let name = $('#name');
+
   const jobRole = document.getElementById('title');
   const jobRoleInput = document.getElementById('other-title');
 
@@ -14,23 +14,158 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   //Variables activities
-  // Variables - Activities
-const activities = document.querySelector('.activities');
-const mainConference = document.querySelector("input[name='all']");
-const jsFrameworks = document.querySelector("input[name='js-frameworks']");
-const jsLibraries= document.querySelector("input[name='js-libs']");
-const express = document.querySelector("input[name='express']");
-const nodeJS = document.querySelector("input[name='node']");
-const buildTools = document.querySelector("input[name='build-tools']");
-const npm = document.querySelector("input[name='npm']");
-const activitiesErrorDiv = document.createElement('div');
-const activitiesErrorSpan = document.createElement('span');
+
+  const activities = document.querySelector('.activities');
+  const mainConference = document.querySelector("input[name='all']");
+  const jsFrameworks = document.querySelector("input[name='js-frameworks']");
+  const jsLibraries = document.querySelector("input[name='js-libs']");
+  const express = document.querySelector("input[name='express']");
+  const nodeJS = document.querySelector("input[name='node']");
+  const buildTools = document.querySelector("input[name='build-tools']");
+  const npm = document.querySelector("input[name='npm']");
+  const activitiesErrorDiv = document.createElement('div');
+  const activitiesErrorSpan = document.createElement('span');
 
   // variables total costs
-const totalHTML = document.createElement('div');
-const totalSpan = document.createElement('span');
-let total;
-let printCost = 0;
+  const totalHTML = document.createElement('div');
+  const totalSpan = document.createElement('span');
+  let total;
+  let printCost = 0;
+
+  //Payment Variables
+  const payment = document.getElementById('payment');
+  const creditCard = document.getElementById('credit-card');
+  const paypal = document.getElementById('paypal');
+  const bitcoin = document.getElementById('bitcoin');
+  // PAYMENT  information variables
+  const cretditCardNumber = document.getElementById('cc-num');
+  const zipCode = document.getElementById('zip');
+  const cvvCode = document.getElementById('cvv');
+  const paymentErrorDiv = document.createElement('div');
+  const paymentErrorSpan = document.createElement('span');
+
+  //form validation
+  //name variables
+  //const name = document.getElementById('name');
+  const name = document.getElementById('name');
+  const nameErrorDiv = document.createElement('div');
+  const nameErrorSpan = document.createElement('span');
+
+  //email
+  const mail = document.getElementById('email');
+  const emailErrorDiv = document.createElement('div');
+  const emailErrorSpan = document.createElement('span');
+  const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  // Submit button
+  const submitButton = document.querySelector('button');
+
+  //****************************************
+  // ERROR FUNCTION
+  //****************************************
+
+  //CreateError
+  const errorFunction = function(errorMessage, span, div, insertBeforeM) {
+    span.textContent = '';
+    span.append('errorMessage');
+    span.setAttribute("class", "error");
+    div.appendChild(span);
+    insertBeforeM.parentNode.insertBefore(div, insertBeforeM);
+  };
+
+  //Name validation
+  const blankName = () => {
+    if (name.value == '') {
+      errorFunction('Name field can not be blank ', nameErrorSpan, nameErrorDiv, name);
+      return false;
+    } else {
+      nameErrorDiv.remove();
+      return true;
+    }
+  };
+
+  // email not blanl Validation
+  const blankEmail = () => {
+    if (mail.value == '') {
+      errorFunction('must be a validly formatted e-mail address ', emailErrorSpan, emailErrorDiv, email);
+      return false;
+    } else {
+      emailErrorDiv.remove();
+      return true;
+    }
+  };
+
+  //email Validation
+  const validEmail = () => {
+
+    if (regex.test(mail.value) == false) {
+      errorFunction('Please enter a valid mail', emailErrorSpan, emailErrorDiv, mail);
+    } else {
+      emailErrorDiv.remove();
+    }
+    return regex.test(email.value);
+  };
+
+  //activities
+  const valideActivity = () => {
+
+    if (printCost == 0) {
+      errorFunction('Please select one activitie', activitiesErrorSpan, activitiesErrorDiv, activities);
+      return false;
+    } else {
+      activitiesErrorDiv.remove();
+      return true;
+    }
+  };
+
+  //Payment
+  const paymentValid = () => {
+    if (payment.value === 'paypal') {
+      return true;
+    } else if (payment.value === 'bitcoin') {
+      return true;
+    } else if (isNaN(parseInt(creditCardNumber.value))) {
+      createError('Please enter numbers 0-9', paymentErrorSpan, paymentErrorDiv, creditCard);
+      return false;
+    } else if (creditCardNumber.value == '' || creditCardNumber.value == null) {
+      createError('Please enter a credit card number', paymentErrorSpan, paymentErrorDiv, creditCard);
+      return false;
+    } else if (creditCardNumber.value.length < 13 || creditCardNumber.value.length > 16) {
+      createError('Please enter a number between 13 and 16 digits', paymentErrorSpan, paymentErrorDiv, creditCard);
+      return false;
+    } else if (zipCode.value.length != 5 || zipCode.value == '' || zipCode.value == null || isNaN(parseInt(zipCode.value))) {
+      createError('Please enter a valid zip code', paymentErrorSpan, paymentErrorDiv, creditCard);
+      return false;
+    } else if (cvvCode.value.length != 3 || cvvCode.value == '' || cvvCode.value == null || isNaN(parseInt(cvvCode.value))) {
+      createError('Please enter a valid CVV code', paymentErrorSpan, paymentErrorDiv, creditCard);
+      return false;
+    } else {
+      paymentErrorDiv.remove();
+      return true;
+    }
+  };
+
+  //****************************************
+  // Function Error Validation
+  //****************************************
+  const validation = () => {
+    blankName();
+    blankEmail();
+    validEmail();
+    paymentValid();
+    valideActivity();
+  };
+
+  // Email Keyup tester
+  $(email).keyup(function() {
+    if (regex.test(email.value) == false) {
+      createError('Please enter a valid email', emailErrorSpan, emailErrorDiv, email);
+    } else {
+      emailErrorDiv.remove();
+    }
+  });
+
+
 
   //When the page loads, give focus to the first text field
   $(function() {
@@ -53,7 +188,13 @@ let printCost = 0;
       $(jobRoleInput).hide();
     }
   });
+
+  //******************************************
+
   //T-Shirt Info” section of the form:
+
+  //******************************************
+
   // Function to hide color dropdown, depopulate
   $(function() {
     $(colorMenu).hide();
@@ -81,9 +222,11 @@ let printCost = 0;
       $(chooseColor).html('');
     }
   });
+  //***************************************
 
-  //function calc
+  //function calc for activites
 
+  //***************************************
   // Function to calculate total cost and append total
   const calcCost = (cost) => {
     printCost += cost;
@@ -95,6 +238,10 @@ let printCost = 0;
       activities.append(totalHTML);
     }
   };
+
+  //****************************************
+  //activities
+  //****************************************
 
   // Event listeners to add/subtract cost and disable overlapping sessions
 
@@ -109,15 +256,15 @@ let printCost = 0;
   jsFrameworks.addEventListener('change', () => {
     if (jsFrameworks.checked) {
       calcCost(100);
-      expressW.disabled = true;
-      expressW.parentNode.className = 'disabled';
+      express.disabled = true;
+      express.parentNode.className = 'disabled';
     } else {
       calcCost(-100);
       express.disabled = false;
       express.parentNode.className = '';
     }
   });
-// JavaScript Libraries Workshop
+  // JavaScript Libraries Workshop
   jsLibraries.addEventListener('change', () => {
     if (jsLibraries.checked) {
       calcCost(100);
@@ -129,7 +276,7 @@ let printCost = 0;
       nodeJS.parentNode.className = '';
     }
   });
-//Express Workshop
+  //Express Workshop
   express.addEventListener('change', () => {
     if (express.checked) {
       calcCost(100);
@@ -141,7 +288,7 @@ let printCost = 0;
       jsFrameworks.parentNode.className = '';
     }
   });
-//Node.js Workshop
+  //Node.js Workshop
   nodeJS.addEventListener('change', () => {
     if (nodeJS.checked) {
       calcCost(100);
@@ -153,7 +300,7 @@ let printCost = 0;
       jsLibraries.parentNode.className = '';
     }
   });
-//Build tools Workshop
+  //Build tools Workshop
   buildTools.addEventListener('change', () => {
     if (buildTools.checked) {
       calcCost(100);
@@ -161,7 +308,7 @@ let printCost = 0;
       calcCost(-100);
     }
   });
-//Build tools Workshop
+  //Npm Workshop
   npm.addEventListener('change', () => {
     if (npm.checked) {
       calcCost(100);
@@ -169,15 +316,45 @@ let printCost = 0;
       calcCost(-100);
     }
   });
+  //****************************************
 
+  // Payment Info section of the form
 
+  //****************************************
+  // by default show creditCard option
+  $(function() {
+    paypal.style.display = 'none';
+    bitcoin.style.display = 'none';
 
+  });
 
+  payment.addEventListener('change', () => {
+    if (payment.value === 'credit-card') {
+      creditCard.style.display = '';
+      paypal.style.display = 'none';
+      bitcoin.style.display = 'none';
+    }
+    if (payment.value === 'paypal') {
+      creditCard.style.display = 'none';
+      paypal.style.display = '';
+      bitcoin.style.display = 'none';
+    }
+    if (payment.value === 'bitcoin') {
+      creditCard.style.display = 'none';
+      paypal.style.display = 'none';
+      bitcoin.style.display = '';
+    }
+  });
 
+  //validadate, submit form
 
-
-
-
-
-  //Give the field an id of “other-title,” and add the placeholder text of "Your Job Role" to the field.
-});
+  submitButton.addEventListener('click', (e) => {
+    let valid = blankName() && blankEmail() && validEmail() && valideActivity() && paymentValid();
+    if (!valid) {
+      e.preventDefault();
+      validation();
+    } else {
+      alert('Thanks for registering!');
+    }
+  });
+//});
