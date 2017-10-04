@@ -155,11 +155,20 @@
   // Email Keyup tester
   $(mail).keyup(function() {
     if (regex.test(mail.value) == false) {
-      errorFunction('Please enter a valid email', emailErrorSpan, emailErrorDiv, mail);
+      errorFunction('Please enter a valid mail', emailErrorSpan, emailErrorDiv, mail);
     } else {
       emailErrorDiv.remove();
     }
+
   });
+  $(name).keyup(function() {
+    if (name.value == '') {
+      errorFunction('Please enter a valid name', namelErrorSpan, nameErrorDiv, name);
+    } else {
+      nameErrorDiv.remove();
+    }
+  });
+
 
   //When the page loads, give focus to the first text field
   $(function() {
