@@ -72,7 +72,6 @@
     div.appendChild(span);
     insertBeforeM.parentNode.insertBefore(div, insertBeforeM);
   };
-
   //Name validation
   const blankName = () => {
     if (name.value == '') {
@@ -83,41 +82,38 @@
       return true;
     }
   };
-
   // email not blanl Validation
   const blankEmail = () => {
     if (mail.value == '') {
       errorFunction('must be a validly formatted e-mail address ', emailErrorSpan, emailErrorDiv, mail);
       return false;
     } else {
-      mailErrorDiv.remove();
+      emailErrorDiv.remove();
       return true;
     }
   };
-
   //email Validation
   const validEmail = () => {
 
     if (regex.test(mail.value) == false) {
       errorFunction('Please enter a valid mail', emailErrorSpan, emailErrorDiv, mail);
     } else {
-      mailErrorDiv.remove();
+      emailErrorDiv.remove();
     }
     return regex.test(mail.value);
   };
-
   //activities
-  const valideActivity = () => {
+  const validActivity = () => {
 
     if (printCost == 0) {
-      errorFunction('Please select one activitie', activitiesErrorSpan, activitiesErrorDiv, activities);
+      errorFunction('Please select one activitie', activitiesErrorSpan, activitiesErrorDiv, mainConference
+    );
       return false;
     } else {
       activitiesErrorDiv.remove();
       return true;
     }
   };
-
   //Payment
   const paymentValid = () => {
     if (payment.value === 'paypal') {
@@ -153,7 +149,7 @@
     blankEmail();
     validEmail();
     paymentValid();
-    valideActivity();
+    validActivity();
   };
 
   // Email Keyup tester
@@ -161,11 +157,9 @@
     if (regex.test(mail.value) == false) {
       errorFunction('Please enter a valid email', emailErrorSpan, emailErrorDiv, mail);
     } else {
-      mailErrorDiv.remove();
+      emailErrorDiv.remove();
     }
   });
-
-
 
   //When the page loads, give focus to the first text field
   $(function() {
@@ -325,7 +319,6 @@
   $(function() {
     paypal.style.display = 'none';
     bitcoin.style.display = 'none';
-
   });
 
   payment.addEventListener('change', () => {
@@ -333,23 +326,25 @@
       creditCard.style.display = '';
       paypal.style.display = 'none';
       bitcoin.style.display = 'none';
-    }
-    if (payment.value === 'paypal') {
+    }else if (payment.value === 'paypal') {
       creditCard.style.display = 'none';
       paypal.style.display = '';
       bitcoin.style.display = 'none';
-    }
-    if (payment.value === 'bitcoin') {
+    }else if (payment.value === 'bitcoin') {
       creditCard.style.display = 'none';
       paypal.style.display = 'none';
       bitcoin.style.display = '';
+    }else{
+      creditCard.style.display = '';
+      paypal.style.display = 'none';
+      bitcoin.style.display = 'none';
     }
   });
 
   //validadate, submit form
 
   submitButton.addEventListener('click', (e) => {
-    let valid = blankName() && blankEmail() && validEmail() && valideActivity() && paymentValid();
+    let valid = blankName() && blankEmail() && validEmail() && validActivity() && paymentValid();
     if (!valid) {
       e.preventDefault();
       validation();
