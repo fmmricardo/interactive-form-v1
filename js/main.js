@@ -91,7 +91,7 @@
       emailErrorDiv.remove();
       return true;
     }
-  };
+  };tre
   //email Validation
   const validEmail = () => {
 
@@ -142,7 +142,7 @@
   };
 
   //****************************************
-  // Function Error Validation
+  // Function Error Validation ddddd
   //****************************************
   const validation = () => {
     blankName();
