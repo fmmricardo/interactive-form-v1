@@ -56,7 +56,13 @@
   const emailErrorDiv = document.createElement('div');
   const emailErrorSpan = document.createElement('span');
   const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regex_cc = /\d{12,15}/;
+  const regex_zip = /\d{5}/;
+  const regex_cvv = /\d{3}/;
 
+  const ccError = regex.test(creditCardNumber.value);
+  const zipError = regex.test(zipCode.value);
+  const cvvError = regex.test(cvvCode.value);
   // Submit button
   const submitButton = document.querySelector('button');
 
@@ -64,7 +70,7 @@
   // ERROR FUNCTION
   //****************************************
 
-  //CreateError
+  //errorFunction
   const errorFunction = function(errorMessage, span, div, insertBeforeM) {
     span.textContent = '';
     span.append(errorMessage);
@@ -91,7 +97,7 @@
       emailErrorDiv.remove();
       return true;
     }
-  };tre
+  };
   //email Validation
   const validEmail = () => {
 
@@ -106,8 +112,7 @@
   const validActivity = () => {
 
     if (printCost == 0) {
-      errorFunction('Please select one activitie', activitiesErrorSpan, activitiesErrorDiv, mainConference
-    );
+      errorFunction('Please select one activitie', activitiesErrorSpan, activitiesErrorDiv, mainConference);
       return false;
     } else {
       activitiesErrorDiv.remove();
@@ -120,21 +125,21 @@
       return true;
     } else if (payment.value === 'bitcoin') {
       return true;
-    } else if (isNaN(parseInt(creditCardNumber.value))) {
+    } else if (isNaN(creditCardNumber.value ) || ccError) {
       errorFunction('Please enter numbers 0-9', paymentErrorSpan, paymentErrorDiv, creditCard);
       return false;
-    } else if (creditCardNumber.value == '' || creditCardNumber.value == null) {
-      errorFunction('Please enter a credit card number', paymentErrorSpan, paymentErrorDiv, creditCard);
-      return false;
-    } else if (creditCardNumber.value.length < 13 || creditCardNumber.value.length > 16) {
-      errorFunction('Please enter a number between 13 and 16 digits', paymentErrorSpan, paymentErrorDiv, creditCard);
-      return false;
-    } else if (zipCode.value.length != 5 || zipCode.value == '' || zipCode.value == null || isNaN(parseInt(zipCode.value))) {
-      errorFunction('Please enter a valid zip code', paymentErrorSpan, paymentErrorDiv, creditCard);
-      return false;
-    } else if (cvvCode.value.length != 3 || cvvCode.value == '' || cvvCode.value == null || isNaN(parseInt(cvvCode.value))) {
-      errorFunction('Please enter a valid CVV code', paymentErrorSpan, paymentErrorDiv, creditCard);
-      return false;
+    }  else if (creditCardNumber.value == '' || creditCardNumber.value == null) {
+        errorFunction('Please enter a credit card number', paymentErrorSpan, paymentErrorDiv, creditCard);
+        return false;
+    } else if (creditCardNumber.value.length < 13 || creditCardNumber.value.length > 16  ) {
+        errorFunction('Please enter a number between 13 and 16 digits', paymentErrorSpan, paymentErrorDiv, creditCard);
+        return false;
+    } else if (zipCode.value.length != 5 || zipCode.value == '' || zipCode.value == null || isNaN(zipCode.value) || zipError ) {
+        errorFunction('Please enter a valid zip code', paymentErrorSpan, paymentErrorDiv, creditCard);
+        return false;
+    } else if (cvvCode.value.length != 3 || cvvCode.value == '' || cvvCode.value == null || isNaN(cvvCode.value)|| cvvError ) {
+        errorFunction('Please enter a valid CVV code', paymentErrorSpan, paymentErrorDiv, creditCard);
+        return false;
     } else {
       paymentErrorDiv.remove();
       return true;
@@ -152,6 +157,12 @@
     validActivity();
   };
 
+//**********************
+
+//Test
+
+//**********************
+
   // Email Keyup tester
   $(mail).keyup(function() {
     if (regex.test(mail.value) == false) {
@@ -161,13 +172,15 @@
     }
 
   });
+
   $(name).keyup(function() {
     if (name.value == '') {
-      errorFunction('Please enter a valid name', namelErrorSpan, nameErrorDiv, name);
+      errorFunction('Please enter a valid name', nameErrorSpan, nameErrorDiv, name);
     } else {
       nameErrorDiv.remove();
     }
   });
+
 
 
   //When the page loads, give focus to the first text field
